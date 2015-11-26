@@ -1,11 +1,11 @@
-# form_for on Edit
+# `form_for` on Edit
 
 If you know how to utilize the `form_tag` method for creating forms in Rails you may wonder why you need to learn a new form building process. Let's imagine that you've been tasked with creating the world's first pet hamster social network, and one of the requirements is that the hamster profile page needs to have about 100 different form fields that can be edited. If you are using the `form_for` method, your application will be technically resubmitting all 100 fields each time you edit the data. Your form view templates will also have 100 calls to the `@hamster` instance variable and each of the hamster attributes. Thankfully `form_for` is here and will help clean up the form view template and provide some additional benefits that we'll explore in this lesson.
 
 
 ## Recap of `form_tag`
 
-To review, the `form_tag` helper method allows us to automatically generate HTML form code and integrate data to both autofill the values as well as have the form submit data that the controller can use to either create or update a record in the database. It allows for you to pass in: the route for where the parameters for the form will be sent, the HTTP method that the form will utilize, and the attributes for each field.
+To review, the `form_tag` helper method allows us to automatically generate HTML form code and integrate data to both auto fill the values as well as have the form submit data that the controller can use to either create or update a record in the database. It allows for you to pass in: the route for where the parameters for the form will be sent, the HTTP method that the form will utilize, and the attributes for each field.
 
 
 ## Issues with using `form_tag`
@@ -21,9 +21,9 @@ Before we get into the benefits and features of the `form_for` method, let's fir
 
 ## Difference between `form_for` and `form_tag`
 
-The differences between `form_for` and `form_tag` are subtle, but important, below is a basic breakdown of the differences, we'll start with talking about them at a high level perspective and then get into each one of the aspects on a practical/implemetation basis:
+The differences between `form_for` and `form_tag` are subtle, but important, below is a basic breakdown of the differences, we'll start with talking about them at a high level perspective and then get into each one of the aspects on a practical/implementation basis:
 
-* `form_for` binds itself to the model and automatically autofills the values for each attribute by simply calling the symbol
+* `form_for` binds itself to the model and automatically auto fills the values for each attribute by simply calling the symbol
 
 * `form_for` yields an object that you can use to generate your form elements
 
@@ -65,7 +65,7 @@ Let's take this refactor one element at a time. Since we already have access to 
 <%= form_for(@post) do |f| %>
 ```
 
-The `|f|` is an iterator variable that we can use on the new form object that will allow us to dynamically assign form field elements to each of the `post` data attributes, along with autofilling the values for each field. We get this `ActionView` functionality because we're using the `form_form` method and that gives us access to the `FormBuilder` module in Rails ([Documentation](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html)). Inside of the form we can now refactor the fields:
+The `|f|` is an iterator variable that we can use on the new form object that will allow us to dynamically assign form field elements to each of the `post` data attributes, along with auto filling the values for each field. We get this `ActionView` functionality because we're using the `form_form` method and that gives us access to the `FormBuilder` module in Rails ([Documentation](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html)). Inside of the form we can now refactor the fields:
 
 ```ERB
 <label>Post title:</label><br>
@@ -75,7 +75,7 @@ The `|f|` is an iterator variable that we can use on the new form object that wi
 <%= f.text_area :description %><br>
 ```
 
-Isn't that much cleaner? Notice how we no longer have to pass in the values manually? By passing in the attribute as a symbol (e.g. `:title`) that will automatically tell the form field what model attribute to bind to, it also is what autofills the values for us. Now let's refactor the submit button, instead of `<%= submit_tag "Submit Post" %>` we can change it to:
+Isn't that much cleaner? Notice how we no longer have to pass in the values manually? By passing in the attribute as a symbol (e.g. `:title`) that will automatically tell the form field what model attribute to bind to, it also is what auto fills the values for us. Now let's refactor the submit button, instead of `<%= submit_tag "Submit Post" %>` we can change it to:
 
 ```ERB
 <%= f.submit %>
