@@ -52,8 +52,6 @@ Let's take the `edit` form that utilized the `form_tag` that we built before for
 
   <label>Post Description</label><br>
   <%= text_area_tag :description, @post.description %><br>
-
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   
   <%= submit_tag "Submit Post" %>
 <% end %>
@@ -100,19 +98,21 @@ Lastly, `form_for` also automatically sets the `authenticity_token` value for us
 Our refactor work isn't quite done, if you had previously created a `PUT` route like we did in the `form_tag` lesson, we'll need to change that to a `PATCH` method since that is the HTTP verb that `form_for` utilizes, we can make that change in the `config/routes.rb` file:
 
 ```ruby
-patch 'post/:id', to: 'posts#update'
+patch 'posts/:id', to: 'posts#update'
 ```
 
 What's the difference between `PUT` and `PATCH`? The differences are pretty subtle, on a high level `PUT` has the ability to update the entire object, whereas `PATCH` simply updates the element that was changed. Many developers choose to utilize `PATCH` as much as possible because it requires less overhead, however it is pretty rare when you will need to distinguish between the two verbs and they are used interchangeably quite often.
+
+You can also put in an additional argument if you're using the `resources` method for `update` and this will all happen automatically.
 
 Now if you start the Rails server and go to an edit page you'll see that the data is loaded into the form and everything appears to be working properly, however if you change the value of one of the form fields and click `Update post` you will see that the record isn't updated. So what's happening? When I run into behavior like this I'll usually look at the console logs to see if it tells me anything. Below is the screenshot of what I see after submitting the form:
 
 ![Unpermitted Parameters](https://s3.amazonaws.com/flatiron-bucket/readme-lessons/unpermitted_params.png)
 
-If you remember back to the original [edit lesson](https://github.com/learn-co-curriculum/rails-edit-update-action-readme) you will remember that Rails 4 requires us to secure our forms by integrating strong parameters. If you look up at the console log you'll see that one of the parameters that is unpermitted is `post`. This is because `form_for` is bound directly with the `Post` model, so we need to pass the model into the strong parameter call in the controller. So let's change: `@post.update(params.permit(:title, :description))` to:
+Because `form_for` is bound directly with the `Post` model, we need to pass the model into update method in the controller. So let's change: `@post.update(title: params[:title], description: params[:description])` to:
 
 ```ruby
-@post.update(params.require(:post).permit(:title, :description))
+@post.update(params.require(:post))
 ```
 
 So why do we need to `require` the `post`? If you look at the old form the params would look something like this:
