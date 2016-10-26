@@ -63,7 +63,7 @@ Let's take this refactor one element at a time. Since we already have access to 
 <%= form_for(@post) do |f| %>
 ```
 
-The `|f|` is an iterator variable that we can use on the new form object that will allow us to dynamically assign form field elements to each of the `post` data attributes, along with auto filling the values for each field. We get this `ActionView` functionality because we're using the `form_for` method, which gives us access to the [`FormBuilder` module in Rails](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html). Inside of the form, we can now refactor the fields:
+The `|f|` is an iterator variable that we can use on the new form object that will allow us to dynamically assign form field elements to each of the `@post` data attributes, along with auto filling the values for each field. We get this `ActionView` functionality because we're using the `form_for` method, which gives us access to the [`FormBuilder` module in Rails](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html). Inside of the form, we can now refactor the fields:
 
 ```erb
 <label>Post title:</label><br>
@@ -145,3 +145,5 @@ If you go back to the `edit` page and submit the form, the record will be update
 Nice work! You now know how to integrate multiple form helpers into a Rails application, and you should have a good idea on when to properly use `form_for` vs. `form_tag`.
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
